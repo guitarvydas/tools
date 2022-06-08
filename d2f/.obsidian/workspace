@@ -1,0 +1,103 @@
+{
+  "main": {
+    "id": "a194790253d4fe1f",
+    "type": "split",
+    "children": [
+      {
+        "id": "21389d26cf52fa7e",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "D2F.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "98d3da98e2e274db",
+    "type": "split",
+    "children": [
+      {
+        "id": "6096d4cdc9c83c9d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bf46588cf3f429e0",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "ce95e0d7550f2919",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "fe245de306f05662",
+    "type": "split",
+    "children": [
+      {
+        "id": "23eb6ba58b741959",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f7c166f258a507ac",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "D2F.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "21389d26cf52fa7e",
+  "lastOpenFiles": [
+    "D2F.md",
+    "Cleanup.md",
+    "Pass 4 Convert to Facts.md",
+    "Pass 3 Normalize Styles.md",
+    "Pass 2 Extract Diagrams.md",
+    "Pass 1 Uncompress.md",
+    "README.md",
+    "doc/D2F.md",
+    "doc/Pass 1 Uncompress.md",
+    "doc/gears.jpg"
+  ]
+}
