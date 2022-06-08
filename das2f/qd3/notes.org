@@ -1,0 +1,4 @@
+* working on conditional display test.md
+** displays must push {cond,display} onto stack
+*** display pushes {true,display}
+*** cond pushes {pred,display}

@@ -3,7 +3,7 @@
 root=$1
 name=$2
 d2fdir=$root/d2f
-prep=$root/prep
+prep=$root/prep/prep
 sed=sed
 sort=sort
 $prep '.' '$' $d2fdir/drawio.ohm $d2fdir/drawio.glue --input=$name --stop=1 --support=$d2fdir/support.js \

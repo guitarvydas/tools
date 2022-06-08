@@ -1,0 +1,38 @@
+#!/bin/bash
+# input from fb.pl
+# output augments fb.pl
+temp=_temp_${RANDOM}
+temp2=_temp_${RANDOM}
+layer=layer_${RANDOM}
+
+cat >test_layer3.pl <<'~~~'
+
+inferLayer3:-
+    direct_contains(DirectContainsSet),
+    asserFactsLayer3(DirectContainsSet).
+
+displayLayer3Facts:-
+    forall(das_fact(direct_contains,X,K),format("das_fact(direct_contains,~w,~q).~n",[X,K])).
+
+layer3:-
+    inferLayer3,
+    displayLayer3Facts.
+
+assertFactsLayer3([]).
+assertFactsLayer3([[Parent,Child]|RestDirectContains]):-
+    assertz(das_fact(direct_contains,Parent,Child)),
+    assertFactsLayer3(RestDirectContains).
+~~~
+
+swipl -q \
+      -g "consult(common)." \
+      -g "consult(layer3)." \
+      -g "common." \
+      -g "consult(contains)." \
+      -g "layer3." \
+      -g "halt." \
+      > $temp
+cat fb.pl $temp >$temp2
+mv $temp2 fb.pl
+rm -f $temp
+rm -f $layer.pl

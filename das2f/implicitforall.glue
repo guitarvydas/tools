@@ -1,0 +1,17 @@
+main [ @sharps @ws kquery @ws2 @nl Match @Ensures] = [[${sharps}${ws}~${ws2}${Match}${Ensures}]]
+
+match [line] = [[${line}]]
+ensure [line] = [[(${line.trim ()}->true ; format(user_error,"querythen failed /${line.trim ()}/~n",[]),abort),\n]]
+
+line [@notNL nl] = [[${notNL}${nl}]]
+
+notPAREN [c] = [[${c}]]
+
+ident [firstChar @restChar] = [[${firstChar}${restChar}]]
+firstChar [c] = [[${c}]]
+restChar [c] = [[${c}]]
+nl  [c] = [[${c}]]
+sharp  [c] = [[${c}]]
+notNL  [c] = [[${c}]]
+ws  [c] = [[${c}]]
+

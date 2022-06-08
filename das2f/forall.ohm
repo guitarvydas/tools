@@ -1,0 +1,26 @@
+forall {
+  Main = sharp+ "forall" ident "as" predicate ws* nl* ident "=" "cond" CondClause+ CondElse
+
+  predicate = ident "(" actuals ")" ws*
+  CondClause = guard value
+  CondElse = "else" value
+
+  guard = predicate
+  value = line
+
+  actuals =   "(" actuals ")" -- parenthesized
+            | notPAREN+         -- raw
+
+  line = ~sharp notNL* nl
+
+  notPAREN = ~"(" ~")" any
+
+    ident = firstChar restChar*
+    firstChar = "A" .. "Z" | "a" .. "z" | "_"
+    restChar = "0" .. "9" | firstChar
+    nl = "\n"
+    sharp = "#"
+    notNL = ~nl any
+    ws = " " | "\t"
+}
+

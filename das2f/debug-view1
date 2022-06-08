@@ -1,0 +1,2 @@
+    pfr qd_1.md qd.ohm qd.glue support.js >qd.bash
+makewatch qd_1    

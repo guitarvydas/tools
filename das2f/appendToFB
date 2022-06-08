@@ -1,0 +1,7 @@
+# usage: appendToFB tempfile
+# fb.pl = fb.pl + contents(tempfile)
+
+tempfile=$1
+temp2=temp${RANDOM}
+cat fb.pl ${tempfile} >${temp2}
+mv ${temp2} fb.pl

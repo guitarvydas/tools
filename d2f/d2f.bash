@@ -7,7 +7,7 @@
 root=$1
 name=$2
 d2fdir=$root/d2f
-prep=$root/prep
+prep=$root/prep/prep
 sed=sed
 sort=sort
 

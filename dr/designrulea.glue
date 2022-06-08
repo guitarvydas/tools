@@ -1,0 +1,64 @@
+Main [ Title Parameters Imports DesignRuleQuery OnFailure ]
+  = [[#!/usr/bin/env swipl
+:-initialization(designrule,main).
+:- use_module(library(http/json)).
+?- consult(fb).
+${Imports}
+${DesignRuleQuery}
+]]
+
+Title [ @sharp kdesign krule anythingToEOL ]
+  = [[]]
+
+Parameters [@sharp kparameters anythingToEOL @identifier]
+  = {{ support.clearParameters (); support.pushParameter ("Passed"); }} [[]]
+  
+Imports [@sharp kimports anythingToEOL @identifier] = [[${identifier}]]
+DesignRuleQuery [@sharp krule anythingToEOL Forall] = [[${anythingToEOL} ${Forall}]]
+OnFailure [@sharp kon kfailure @printLine] = [[${sharp} ${kon} ${kfailure} ${printLine}]]
+
+Forall [kforall ForAllClause @QueryClause kend kforall]
+  = [[
+designrule:-
+  (
+  (
+    ${ForAllClause}
+    bagof([${support.formatParameters ()}],${support.getCurrentConditionName ()}(${support.formatParameters ()}),Bag)
+  )
+  ->true
+  ; (Bag = [[${support.formatAllTrueParameters ()}\]\]
+  )
+),
+json_write(user_output,Bag,[width(128)]).
+
+${support.getCurrentConditionName ()}(${support.formatParameters ()}):-
+((${QueryClause}true)->Passed=true ; Passed=false).
+]]
+QueryClause_cond [kcond @QueryClause kend kcond] = [[(\n${QueryClause}),\n]] 
+QueryClause_other [PrologClause] = [[${PrologClause},\n]]
+printLine [@notNL nl] = [[${notNL}${nl}]]
+
+  ForAllClause [PrologClause] = [[${PrologClause},]]
+  ForAllClause [PrologClause] = [[${PrologClause},]]
+
+  PrologClause_clauseWithArgs [identifier klp @prologArgs krp] = [[${identifier}${klp}${prologArgs}${krp}]]
+  PrologClause_assignment [identifier1 keq identifier2] = [[${identifier1} ${keq} ${identifier2}]]
+  PrologClause_clauseWithoutArgs [identifier] = [[${identifier}]]
+  PrologClause_parenthesized [klp @clause krp] = [[${klp}${clause}${krp}\n]]
+
+  prologArgs_nested [klp @prologArgs krp] = [[${klp} ${prologArgs} ${krp}]]
+  prologArgs_other [any] = [[${any}]]
+
+  parameterIdentifier [id] = [[${support.pushParameter (id)}]]
+  
+    keyword [word] = [[${word}]]
+    sharp [c] = [[${c}]]
+    anythingToEOL [@notNL nl] = [[${notNL}${nl}]]
+    nl [c] = [[${c}]]
+    notNL [any] = [[${any}]]
+    importid [identifier] = [[?- consult("${support.getArgv("PLPATH")}${identifier}.pl").\n]]
+    identifier [firstChar @restChar] = [[${firstChar}${restChar}]]
+    firstChar [c] = [[${c}]]
+    restChar [c] = [[${c}]]
+    comment [kpercents anythingToEOL] = [[${kpercents}${anythingToEOL}]]
+    space [c] = [[${c}]]

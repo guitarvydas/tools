@@ -1,0 +1,21 @@
+Main [kcond @PrologClause kendcond ] = [[( ${PrologClause} fail)]]
+
+  PrologClause_clauseWithArgs [identifier klp @prologArgs krp] = [[${identifier}${klp}${prologArgs}${krp}\n; ]]
+  PrologClause_assignment [identifier1 keq identifier2] = [[${identifier1} ${keq} ${identifier2}\n; ]]
+  PrologClause_parenthesized [klp @prologArgs krp] = [[ ${klp}${prologArgs}${krp} ;]]
+  PrologClause_clauseWithoutArgs [identifier] = [[${identifier}\n; ]]
+
+  prologArgs_nested [klp @prologArgs krp] = [[${klp} ${prologArgs} ${krp}]]
+  prologArgs_other [any] = [[${any}]]
+
+    keyword [word] = [[${word}]]
+
+    anythingToEOL [@notNL nl] = [[${notNL}${nl}]]
+    nl [c] = [[${c}]]
+    notNL [any] = [[${any}]]
+
+    identifier [firstChar @restChar] = [[${firstChar}${restChar}]]
+    firstChar [c] = [[${c}]]
+    restChar [c] = [[${c}]]
+    comment [kpercents anythingToEOL] = [[${kpercents}${anythingToEOL}]]
+    space [c] = [[${c}]]

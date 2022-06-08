@@ -1,0 +1,51 @@
+qd3 {
+ Main = Name Parameters Imports Query Display
+
+ Name = sharp line
+ Parameters = sharp sharp "parameters" parameter+
+ Imports = sharp sharp "imports" import+
+ Query = sharp sharp "query" query+
+ Display = DisplayClause+
+ DisplayClause
+   = sharp sharp condKW predicate display -- conditional
+   | sharp sharp displayKW display -- unconditional
+   | sharp sharp jsonKW            -- json
+   | sharp sharp rawKW code        -- raw
+
+ Test = ident "is" string
+
+   parameter = line
+   import = line
+   query = line
+   predicate = line
+   display = line+
+   code = line+
+   message = line+
+
+   line = ~sharp notNL* nl
+
+   condKW = "cond" ws+ commentToEOL -- withcomment
+          | "cond" nl               -- nocomment
+   displayKW = "display" ws+ commentToEOL -- withcomment
+             | "display" nl               -- nocomment
+   jsonKW = "json"    ws+ commentToEOL    -- withcomment
+          | "json" nl                     -- nocomment
+   rawKW = "raw"    ws+ commentToEOL    -- withcomment
+          | "raw" nl                     -- nocomment
+
+
+   commentToEOL = ~sharp notNL* nl
+
+    nl = "\n"
+    sharp = "#"
+    notNL = ~nl any
+
+    ident = firstChar restChar*
+    firstChar = "A" .. "Z" | "a" .. "z" | "_"
+    restChar = "0" .. "9" | firstChar
+    string = dq notDQ* dq
+    dq = "\""
+    notDQ = ~dq any
+    ws = " " | "\t"
+}
+

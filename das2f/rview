@@ -1,0 +1,17 @@
+debug=true
+chan=$1
+consumer1=$1
+
+echo chan: /${chan}/ consumer1: /${consumer}/
+
+(
+    while read val </dev/fd/3
+    do
+      ${debug} && echo "    received ${val}"
+      ${debug} && echo "    running ${consumer1}"
+      ${consumer1}
+  done
+) 3<${chan} &
+pid_receiver1=$!
+
+echo kill -9 ${pid_receiver1} >>kall

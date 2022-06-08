@@ -1,0 +1,16 @@
+main [@ws query display] = [[${ws}${query}${display}]]
+query [ksharp @ws1 kquery @ws2 @line] = [[${ksharp}${ws1}${kquery}${ws2}${line}]]
+display [ksharp @ws1 kdisplay @ws2 formals nl rewrite @ws4]
+  = [[${ksharp}${ws1}${kdisplay}${ws2}${formals}${nl}${rewrite}${ws4}]]
+formals [klpar @ids krpar] = [[${klpar}${ids}${krpar}]]
+rewrite [@ws kll @rewritechars krr] = [[${ws}${kll}${rewritechars}${krr}]]
+line [@cs nl] = [[${cs}${nl}]]
+ws [c] = [[${c}]]
+notNewline [c] = [[${c}]]
+newline [c] = [[${c}]]
+ident [c @cs @ws] = [[${c}${cs}${ws}]]
+idfirst [c] = [[${c}]]
+idrest [c] = [[${c}]]
+rewritechar [c] = [[${c}]]
+
+

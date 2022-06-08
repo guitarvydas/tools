@@ -1,0 +1,13 @@
+#!/bin/bash
+# input from fb.pl
+# output augments fb.pl
+
+temp=temp_${RANDOM}
+temp2=temp2_${RANDOM}
+
+$1/layeredgecontainment3_query.bash >$temp
+
+### move result into fb.pl (without overwrite problems)
+cat fb.pl $temp >$temp2
+mv $temp2 fb.pl
+rm -f $temp

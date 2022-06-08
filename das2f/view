@@ -1,0 +1,93 @@
+cat >view1.md <<'~~~'
+# query
+    consult(common),
+    bagof([Name, Kind, Clr, L,T,R,B, V,Syn,Val],
+	  (
+	      ( das_fact(kind,V,"edge"),
+		Kind = "edge",
+		Val  = "-",
+		L = "-", T = "-", R = "-", B = "-", Clr = "-", Syn = "-",
+		Name = "-"
+	      )
+	      ;
+	      (
+		  diagram_fact(vertex,V,1)
+		  %,Val="-"
+		  ,das_fact(color,V,Clr)
+		  ,das_fact(bbL,V,L)
+		  ,das_fact(bbT,V,T)
+		  ,das_fact(bbR,V,R)
+		  ,das_fact(bbB,V,B)
+		  ,das_fact(kind,V,Kind)
+		  %,diagram_fact(value,V,Long),sub_string(Long,0,1,_,Val)
+		  ,diagram_fact(value,V,Val)
+		  ,diagram_fact(synonym,V,Syn)
+		  ,nameof(V,Name)
+	      )
+	  ) ,Bag),
+	  json_write(user_output,Bag)
+# display
+  (Name Kind Color Left Top Right Bottom VertexID Synonym Value)
+  [[${Name} ${Kind} ${Color} [${Left},${Top},${Right},${Bottom}] ${VertexID} ${Synonym} "${Value.substring(0,9)}..."]]
+~~~
+
+cat >view1.bash <<'~~~'
+trap 'cleanup' ERR
+trap 'cleanup' EXIT
+
+cleanup () {
+    exit 1
+}
+querydisplay view1
+~~~
+chmod a+x view1-bash
+
+cat >view2.md <<'~~~'
+# query
+    % from common.pl but using fb.pl instead of fb.pl
+    consult(fb),
+    consult(shapes),
+    consult(values),
+    consult(names),
+    consult(ports),
+    bagof([Name, Direction],
+	  (
+		  diagram_fact(vertex,V,1),
+		  isellipse(V),
+          nameof(V,Name),
+		  das_fact(direction,V,Direction)
+      ),	
+	  Bag),
+	  json_write(user_output,Bag)
+# display
+  (Name Direction)
+  [[${Name} ${Direction}]]
+
+~~~
+cat >view2 <<'~~~'
+querydisplay view2
+~~~
+chmod a+x view2
+
+cat >view3.md <<'~~~'
+# query
+    consult(common),
+    bagof([Name, Direction],
+	  (
+		  diagram_fact(vertex,V,1),
+		  isellipse(V),
+          nameof(V,Name),
+		  das_fact(direction,V,Direction)
+      ),	
+	  Bag),
+	  json_write(user_output,Bag)
+# display
+  (Name Direction)
+  [[${Name} ${Direction}]]
+
+~~~
+cat >view3 <<'~~~'
+querydisplay view3
+~~~
+chmod a+x view3
+

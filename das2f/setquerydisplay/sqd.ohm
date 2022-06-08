@@ -1,0 +1,19 @@
+setqd {
+ Main = Name Parameters Imports Query Display
+ Name = sharp line
+ Parameters = sharp sharp "parameters" parameter+
+ Imports = sharp sharp "imports" import+
+ Query = sharp sharp "setquery" query+
+ Display = sharp sharp "display" display
+
+   parameter = line
+   import = line
+   query = line
+   display = line
+
+   line = ~sharp notNL* nl
+
+    nl = "\n"
+    sharp = "#"
+    notNL = ~nl any
+}

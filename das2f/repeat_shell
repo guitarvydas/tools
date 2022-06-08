@@ -1,0 +1,37 @@
+# usage: repeat_shell cmd1 view
+# run cmd1 then notify each view to update the view
+
+# debug=true
+debug=false
+
+producer=$1
+consumer1=$2
+
+bus1=_bus1_${RANDOM}
+mkfifo ${bus1}
+
+echo './rview' ${bus1} ${consumer1} '&' >rv
+chmod a+x rv
+
+# this loop won't run until ./rv is executed (receiver end of pipe)
+(
+  while true
+  do
+    ${producer}
+    echo baton-1 1>&4
+    sleep 1
+  done
+) 4>${bus1} &
+pid_sender=$!
+
+# kill script "./kall" needed during debugging
+echo kill -9 ${pid_sender} >kall
+chmod a+x kall
+
+${debug} && echo waiting for pids ${pid_sender} ${pid_receiver1} ${pid_receiver2} ${pid_receiver3} ${pid_receiver4}
+wait ${pid_sender}
+${debug} && echo sender finished ${pid_sender}
+wait ${pid_receiver1}
+${debug} && echo receiver1 finished ${pid_receiver1}
+
+rm -f ${bus1}

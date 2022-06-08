@@ -1,0 +1,38 @@
+Main [ Title Parameters Imports DesignRuleQuery OnFailure ]
+  = [[${Title}${Parameters}${Imports}${DesignRuleQuery}${OnFailure}]]
+
+Title [ @sharp kdesign krule anythingToEOL ]
+  = [[${sharp} ${kdesign} ${krule} ${anythingToEOL}\n]]
+
+Parameters [@sharp kparameters anythingToEOL @identifier]
+  = [[${sharp} ${kparameters} ${anythingToEOL} ${identifier}\n]]
+  
+Imports [@sharp kimports anythingToEOL @identifier] = [[${sharp} ${kimports} ${anythingToEOL} ${identifier}\n]]
+DesignRuleQuery [@sharp krule anythingToEOL Forall] = [[${sharp} ${krule} ${anythingToEOL} ${Forall}]]
+OnFailure [@sharp kon kfailure @printLine] = [[${sharp} ${kon} ${kfailure} ${printLine}]]
+
+Forall [kforall ForAllClause @QueryClause kend kforall] = [[${kforall} ${ForAllClause} ${QueryClause} ${kend} ${kforall}\n]]
+QueryClause_cond [kcond @QueryClause kend kcond] = [[${kcond}\n${QueryClause} ${kend} ${kcond}\n]] 
+QueryClause_other [PrologClause] = [[${PrologClause}]]
+printLine [@notNL nl] = [[${notNL}${nl}]]
+
+  ForAllClause [PrologClause] = [[${PrologClause}]]
+
+  PrologClause_clauseWithArgs [identifier klp @prologArgs krp] = [[${identifier}${klp}${prologArgs}${krp}\n]]
+  PrologClause_assignment [identifier1 keq identifier2] = [[${identifier1} ${keq} ${identifier2}\n]]
+  PrologClause_clauseWithoutArgs [identifier] = [[${identifier}\n]]
+
+  prologArgs_nested [klp @prologArgs krp] = [[${klp} ${prologArgs} ${krp}]]
+  prologArgs_other [any] = [[${any}]]
+
+    keyword [word] = [[${word}]]
+    sharp [c] = [[${c}]]
+    anythingToEOL [@notNL nl] = [[${notNL}${nl}]]
+    nl [c] = [[${c}]]
+    notNL [any] = [[${any}]]
+    importid [identifier] = [[${identifier}\n]]
+    identifier [firstChar @restChar] = [[${firstChar}${restChar}]]
+    firstChar [c] = [[${c}]]
+    restChar [c] = [[${c}]]
+    comment [kpercents anythingToEOL] = [[${kpercents}${anythingToEOL}]]
+    space [c] = [[${c}]]

@@ -1,0 +1,21 @@
+set -e
+trap 'catch' ERR
+trap 'cleanup' EXIT
+
+catch () {
+    echo '*** FATAL ERROR in run0 ***'
+    exit 1
+}
+cleanup () {
+    echo '(cleaning up)'
+    exit 1
+}
+
+(while true
+do
+    echo '*** running ***'
+    ./run-fb-pipeline.bash
+    broadcast-updated fb.pl
+    clear
+    sleep 2
+done) >/dev/fd/3

@@ -1,0 +1,1 @@
+./a-${fname} | ./b-${fname}

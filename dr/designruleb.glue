@@ -1,0 +1,55 @@
+Main [ Title Parameters Imports DesignRuleQuery OnFailure ]
+  = [[#!/usr/bin/env node
+const fs = require ('fs');
+var rawText = fs.readFileSync ('/dev/fd/0');
+var parameters = JSON.parse(rawText);
+parameters.forEach (p => {
+${support.formatJSParameters ()}
+if (Passed !== "true") {
+  console.error ('design rule failure');
+${OnFailure}
+}
+});
+]]
+
+
+Title [ @sharp kdesign krule anythingToEOL ]
+  = [[]]
+
+Parameters [@sharp kparameters anythingToEOL @identifier]
+  = {{ support.clearParameters (); support.pushParameter ("Passed"); }} [[]]
+  
+Imports [@sharp kimports anythingToEOL @identifier] = [[]]
+DesignRuleQuery [@sharp krule anythingToEOL Forall] = [[]]
+OnFailure [@sharp kon kfailure @printLine] = [[${printLine}]]
+
+Forall [kforall ForAllClause @QueryClause kend kforall]
+  = [[]]
+QueryClause_cond [kcond @QueryClause kend kcond] = [[]] 
+QueryClause_other [PrologClause] = [[]]
+printLine [@notNL nl] = [[console.error(\`${notNL}\`);${nl}]]
+
+  ForAllClause [PrologClause] = [[]]
+  ForAllClause [PrologClause] = [[]]
+
+  PrologClause_clauseWithArgs [identifier klp @prologArgs krp] = [[]]
+  PrologClause_assignment [identifier1 keq identifier2] = [[]]
+  PrologClause_clauseWithoutArgs [identifier] = [[]]
+  PrologClause_parenthesized [klp @clause krp] = [[]]
+
+  prologArgs_nested [klp @prologArgs krp] = [[]]
+  prologArgs_other [any] = [[]]
+
+  parameterIdentifier [id] = [[${support.pushParameter (id)}]]
+
+    keyword [word] = [[${word}]]
+    sharp [c] = [[${c}]]
+    anythingToEOL [@notNL nl] = [[${notNL}${nl}]]
+    nl [c] = [[${c}]]
+    notNL [any] = [[${any}]]
+    importid [identifier] = [[]]
+    identifier [firstChar @restChar] = [[${firstChar}${restChar}]]
+    firstChar [c] = [[${c}]]
+    restChar [c] = [[${c}]]
+    comment [kpercents anythingToEOL] = [[]]
+    space [c] = [[${c}]]

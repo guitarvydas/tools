@@ -1,0 +1,17 @@
+#!/bin/bash
+# input from fb.pl
+# output augments fb.pl
+temp=_temp_${RANDOM}
+temp2=_temp_${RANDOM}
+
+### move result into fb.pl (without overwrite problems)
+temp=temp_${RANDOM}
+
+$1/layercolor_query.bash >${temp}
+
+$1/appendToFB ${temp}
+# cat $temp
+# cat fb.pl $temp >$temp2
+# mv $temp2 fb.pl
+
+rm -f ${temp}

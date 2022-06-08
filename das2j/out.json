@@ -1,0 +1,44 @@
+[
+  [
+    {
+      "children": [],
+      "connections": [],
+      "id":"cell_11",
+      "inputs": ["in" ],
+      "name":"world",
+      "outputs": [],
+      "synccode":"&lt;p class=&quot;p1&quot; style=&quot;margin: 0px ; font-stretch: normal ; font-size: 11px ; line-height: normal ; font-family: &amp;#34;menlo&amp;#34;&quot;&gt;&lt;span class=&quot;s1&quot;&gt;read &amp;lt;/dev/fd/3&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;p1&quot; style=&quot;margin: 0px ; font-stretch: normal ; font-size: 11px ; line-height: normal ; font-family: &amp;#34;menlo&amp;#34;&quot;&gt;&lt;span class=&quot;s1&quot;&gt;echo world&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;p1&quot; style=&quot;margin: 0px ; font-stretch: normal ; font-size: 11px ; line-height: normal ; font-family: &amp;#34;menlo&amp;#34;&quot;&gt;&lt;span class=&quot;s1&quot;&gt;# no output&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;p1&quot; style=&quot;margin: 0px ; font-stretch: normal ; font-size: 11px ; line-height: normal ; font-family: &amp;#34;menlo&amp;#34;&quot;&gt;&lt;br&gt;&lt;/p&gt;"
+    }
+  ],
+  [
+    {
+      "children": ["world", "hello" ],
+      "connections": [
+	{
+	  "receivers": [ {"receiver": {"component":"hello", "port":"y"}} ],
+	  "senders": [ {"sender": {"component":"helloworld", "port":"x"}} ]
+	},
+	{
+	  "receivers": [ {"receiver": {"component":"world", "port":"in"}} ],
+	  "senders": [ {"sender": {"component":"hello", "port":"out"}} ]
+	}
+      ],
+      "id":"cell_6",
+      "inputs": ["x" ],
+      "name":"helloworld",
+      "outputs": [],
+      "synccode":""
+    }
+  ],
+  [
+    {
+      "children": [],
+      "connections": [],
+      "id":"cell_7",
+      "inputs": ["y" ],
+      "name":"hello",
+      "outputs": ["out" ],
+      "synccode":"&lt;div&gt;echo hello&lt;/div&gt;&lt;div&gt;&lt;/div&gt;echo done &amp;gt;/dev/fd/4"
+    }
+  ]
+]

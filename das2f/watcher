@@ -1,0 +1,15 @@
+batonpipe=$2
+command=$1
+buffer=buffer
+
+(while read -u3 val 
+ do
+     echo "watcher read ${val}" 1>&2
+     echo "watcher running ${command}" 1>&2
+     ${command} >$buffer
+     clear
+     cat $buffer
+ done) 3<${batonpipe} &
+
+pid=$!
+echo ${pid} >>pids

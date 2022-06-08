@@ -1,0 +1,97 @@
+{
+  "main": {
+    "id": "afa81253ffce9bad",
+    "type": "split",
+    "children": [
+      {
+        "id": "c3fcae26881c69d7",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "doc/Dev.bash.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ece3058fc4582786",
+    "type": "split",
+    "children": [
+      {
+        "id": "f87c0aa8a735914f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a05f4fc3263a5416",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "8841762b95c3304e",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "6691dcf2a1e09952",
+    "type": "split",
+    "children": [
+      {
+        "id": "ec229dcb6eb0ba2b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cb0ac524bd734af3",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "doc/Dev.bash.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "c3fcae26881c69d7",
+  "lastOpenFiles": [
+    "doc/Dev.bash.md",
+    "README.md",
+    "doc/Generated Files.md",
+    "doc/PLPATH.md"
+  ]
+}

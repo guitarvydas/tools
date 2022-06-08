@@ -1,0 +1,19 @@
+fb -> (view1 view2 view3)
+
+---
+
+pipe0=event_out_${RANDOM}
+pipe1=event_in_${RANDOM}
+pipe2=event_in_${RANDOM}
+pipe3=event_in_${RANDOM}
+mkfifo pipe_event_out
+mkfifo pipe1_event_in
+mkfifo pipe2_event_in
+mkfifo pipe3_event_in
+
+
+view1 3<pipe1 &
+view2 3<pipe2 &
+view3 3<pipe3 &
+
+open

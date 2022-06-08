@@ -1,0 +1,47 @@
+Main [Name Parameters Imports Query Display]
+= [[
+temp=temp\${RANDOM}
+${Name}
+cat >\${temp}.pl <<'~~~'
+:- use_module(library(http/json)).
+?- consult("fb.pl").
+${Imports.trim ()}
+query:-
+${Query.trim ()}
+json_write(user_output,Set,[width(128)]).
+~~~
+cat >\${temp}.js <<'~~~'
+const fs = require ('fs');
+var rawText = fs.readFileSync ('/dev/fd/0');
+var parameters = JSON.parse(rawText);
+parameters.forEach (p => {
+  ${support.formatJSParameters ()}
+  console.log(\`${Display.trim ()}\`);
+});
+~~~
+swipl -g "consult(\${temp})." -g 'query.' -g 'halt.' | node \${temp}.js
+rm -f \${temp}.pl 1>&2
+rm -f \${temp}.js 1>&2
+]]
+
+Name [ksharp line] =    [[# ${line}]]
+
+Parameters [ksharp1 ksharp2 kparameters @lines]
+  = {{ support.clearParameters (); }} [[]]
+
+Imports [ksharp1 ksharp2 kimports @lines] = [[${lines}]]
+  
+Query [ksharp1 ksharp2 kquery @lines] = [[${lines}]]
+  
+Display [ksharp1 ksharp2 kdisplay line] = [[${line}]]
+ 
+parameter [line] = [[${support.pushParameter (line)}]]
+import [line] = [[?- consult(\"${support.prefix (argv)}${line.trim()}.pl\").\n]]
+query [line] = [[${line.trim()},\n]]
+display [line] = [[${line}]]
+
+line [@cs nl] = [[${cs}${nl}]]
+
+nl [c] = [[${c}]]
+sharp [c] = [[${c}]]
+notNL [c] = [[${c}]]

@@ -1,0 +1,84 @@
+Main [Name Parameters Imports Query Display]
+= [[
+temp=temp\${RANDOM}
+${Name}
+${Parameters}
+cat >\${temp}.pl <<'~~~'
+:- use_module(library(http/json)).
+?- consult("fb.pl").
+${Imports.trim ()}
+query_helper(${support.formatParameters ()}):-
+${Query.trim ()}
+true.
+query:-
+(bagof([${support.formatParameters ()}],query_helper(${support.formatParameters ()}),Bag),
+json_write(user_output,Bag,[width(128)])
+)
+;
+json_write(user_output,[],[width(123)]).
+~~~
+cat >\${temp}.js <<'~~~'
+const fs = require ('fs');
+var rawText = fs.readFileSync ('/dev/fd/0');
+var parameters = JSON.parse(rawText);
+parameters.forEach (p => {
+  ${support.formatJSParameters ()}
+  ${support.formatConditionalDisplays ()};
+});
+  ${support.formatFinalDisplays ()}
+~~~
+swipl -g "consult(\"\${temp}.pl\")." -g 'query.' -g 'halt.' | node \${temp}.js
+rm -f \${temp}.pl
+rm -f \${temp}.js
+]]
+
+Name [ksharp line] =    [[# ${line}]]
+    
+Parameters [ksharp1 ksharp2 kparameters @lines]
+  = {{ support.clearParameters (); }} [[]]
+
+Imports [ksharp1 ksharp2 kimports @lines] = [[${lines}]]
+  
+Query [ksharp1 ksharp2 kquery @lines] = [[${lines}]]
+
+Display [@DisplayClauses] = [[${DisplayClauses}]]
+DisplayClause_conditional [ksharp1 ksharp2   condKW    predicate display]
+  = [[${support.pushConditionalDisplay (predicate, display)}]]
+DisplayClause_unconditional [ksharp1 ksharp2 displayKW           display]
+  = [[${support.pushConditionalDisplay ("true", display)}]]
+DisplayClause_json             [ksharp1 ksharp2 jsonKW                  ]
+  = [[${support.pushFinalDisplay ("true", "\${rawText}")}]]
+
+
+Test [ident kis s] = [[${ident} === \"${s}\"]]
+
+predicate [line] = [[${line}]]
+parameter [line] = [[${support.pushParameter (line)}]]
+import [line] = [[?- consult(\"${support.prefix (argv)}${line.trim()}.pl\").\n]]
+query [line] = [[${line.trim()},\n]]
+display [@lines] = [[${lines}]]
+message [@lines] = [[${lines}]]
+
+condKW_withcomment [kcond @ws commentToEOL] = [[${kcond}${ws}${commentToEOL}]]
+condKW_nocomment [kcond nl] = [[${kcond}${nl}]]
+
+displayKW_withcomment [kdisplay @ws commentToEOL] = [[${kdisplay}${ws}${commentToEOL}]]
+displayKW_nocomment [kdisplay nl] = [[${kdisplay}${nl}]]
+jsonKW_withcomment [kjson @ws commentToEOL] = [[${kjson}${ws}${commentToEOL}]]
+jsonKW_nocomment [kjson nl] = [[${kjson}${nl}]]
+
+commentToEOL [line nl] = [[${line}${nl}]]
+line [@cs nl] = [[${cs}${nl}]]
+
+nl [c] = [[${c}]]
+sharp [c] = [[${c}]]
+notNL [c] = [[${c}]]
+
+ident [c @cs] = [[${c}${cs}]]
+firstChar [c] = [[${c}]]
+restChar [c] = [[${c}]]
+string [dq @notDQ dq2] = [[${notDQ}]]
+dq [c] = [[${c}]]
+notDQ [c] = [[${c}]]
+
+ws [c] = [[${c}]]

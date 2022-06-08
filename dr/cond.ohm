@@ -1,0 +1,24 @@
+designrulecond {
+  Main = "cond" PrologClause+ "endcond"
+  PrologClause 
+    = identifier "(" prologArgs+ ")" -- clauseWithArgs
+    | identifier "=" identifier     -- assignment
+    | "(" prologArgs+ ")"           -- parenthesized
+    | identifier                    -- clauseWithoutArgs
+
+  prologArgs
+    = "(" prologArgs+ ")"            -- nested
+    | ~")" ~"(" any                  -- other
+
+    identifier = ~keyword firstChar restChar*
+    firstChar = "A" .. "Z"  | "a" .. "z" | "_"
+    restChar = "0" .. "9" | firstChar
+    keyword = "endcond" | "cond"
+
+    anythingToEOL = notNL* nl
+    nl = "\n"
+    notNL = ~nl any
+
+    comment = "%%" anythingToEOL
+    space += comment
+}

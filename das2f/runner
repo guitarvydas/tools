@@ -1,0 +1,14 @@
+command=$1
+batonpipe=$2
+
+(while true
+ do
+     echo "runner running ${command}" 1>&2
+     ${command}
+     echo "runner sending OK to ${batonpipe}" 1>&2
+     echo OK 3>${batonpipe} 1>&3
+     sleep 1
+ done) 3>${batonpipe} &
+
+pid=$!
+echo ${pid} >pids

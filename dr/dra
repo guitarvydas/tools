@@ -1,0 +1,30 @@
+#!/usr/bin/env swipl
+:-initialization(designrule,main).
+:- use_module(library(http/json)).
+?- consult("/Users/tarvydas/projects/queryshapes.pl").
+?- consult("/Users/tarvydas/projects/queryonSameDiagram.pl").
+?- consult("/Users/tarvydas/projects/queryinside.pl").
+?- consult("/Users/tarvydas/projects/querynames.pl").
+?- consult("/Users/tarvydas/projects/queryports.pl").
+?- consult("/Users/tarvydas/projects/querycontains.pl").
+
+
+ 
+designrule:-
+(das_fact(kind,Edge,edge),
+cond1) -> Passed = true ; Passed = false.
+
+cond1:-
+diagram_fact(source,Edge,SourceLongID),
+diagram_fact(synonym,SourceID,SourceLongID),
+diagram_fact(target,Edge,TargetLongID),
+diagram_fact(synonym,TargetID,TargetLongID),
+diagram_fact(direct_contains,SourceParent,SourceID),
+diagram_fact(direct_contains,TargetParent,TargetID),
+diagram_fact(direct_contains,SourceContainer,SourceParent),
+diagram_fact(direct_contains,TargetContainer,TargetParent),
+(SourceContainer=TargetContainer;das_fact( direct_contains,SourceContainer,TargetContainer );das_fact( direct_contains,TargetContainer,SourceContainer );fail)
+,
+true.
+
+

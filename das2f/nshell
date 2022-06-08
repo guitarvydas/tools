@@ -1,0 +1,81 @@
+# usage: nshell cmd1 {views}+
+# run cmd1 then notify each view to update the view
+
+# debug=true
+debug=false
+
+producer=$1
+consumer1=$2
+consumer2=$3
+consumer3=$4
+consumer5=$5
+
+bus1=_bus1_${RANDOM}
+mkfifo ${bus1}
+
+bus2=_bus2_${RANDOM}
+mkfifo ${bus2}
+
+bus3=_bus3_${RANDOM}
+mkfifo ${bus3}
+
+bus4=_bus4_${RANDOM}
+mkfifo ${bus4}
+
+(
+  ${producer}
+  echo baton-1 1>&4
+  echo baton-2 1>&5
+  echo baton-3 1>&6
+  echo baton-7 1>&7
+) 4>${bus1} 5>${bus2} 6>${bus3} 7>${bus4} &
+pid_sender=$!
+
+(
+    read val </dev/fd/3
+    ${debug} && echo "    received ${val}"
+    ${debug} && echo "    running ${consumer1}"
+    ${consumer1}
+) 3<${bus1} &
+pid_receiver1=$!
+
+(
+    read val </dev/fd/3
+    ${debug} && echo "    received ${val}"
+    ${debug} && echo "    running ${consumer2}"
+    ${consumer2}
+) 3<${bus2} &
+pid_receiver2=$!
+
+(
+    read val </dev/fd/3
+    ${debug} && echo "    received ${val}"
+    ${debug} && echo "    running ${consumer3}"
+    ${consumer3}
+) 3<${bus3} &
+pid_receiver3=$!
+
+(
+    read val </dev/fd/3
+    ${debug} && echo "    received ${val}"
+    ${debug} && echo "    running ${consumer4}"
+    ${consumer4}
+) 3<${bus4} &
+pid_receiver4=$!
+
+${debug} && echo waiting for pids ${pid_sender} ${pid_receiver1} ${pid_receiver2} ${pid_receiver3} ${pid_receiver4}
+wait ${pid_sender}
+${debug} && echo sender finished ${pid_sender}
+wait ${pid_receiver1}
+${debug} && echo receiver1 finished ${pid_receiver1}
+wait ${pid_receiver2}
+${debug} && echo receiver2 finished ${pid_receiver2}
+wait ${pid_receiver3}
+${debug} && echo receiver3 finished ${pid_receiver3}
+wait ${pid_receiver4}
+${debug} && echo receiver4 finished ${pid_receiver4}
+
+rm -f ${bus1}
+rm -f ${bus2}
+rm -f ${bus3}
+rm -f ${bus4}

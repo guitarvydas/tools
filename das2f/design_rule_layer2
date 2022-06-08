@@ -1,0 +1,12 @@
+#!/bin/bash
+# input from fb.pl
+# output none or error message(s)
+temp=_temp_${RANDOM}
+temp2=_temp_${RANDOM}
+
+swipl -q \
+      -g "consult(common)." \
+      -g "consult(i_layer2)." \
+      -g "common." \
+      -g "designRuleLayer2." \
+      -g "halt."

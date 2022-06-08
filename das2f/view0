@@ -1,0 +1,23 @@
+temp=_temp_${RANDOM}
+set -e
+trap 'catch' ERR
+trap 'cleanup' EXIT
+
+catch () {
+    echo '*** FATAL ERROR in view0 ***'
+    rm -f $temp
+    exit 1
+}
+cleanup () {
+    echo "(cleaning up $temp)"
+    rm -f $temp
+    exit 1
+}
+
+while true
+do
+    ./run.bash
+    clear
+    tail vfb.pl
+    sleep 1
+done
