@@ -1,4 +1,23 @@
-#!/usr/bin/env node
+// argv
+// ._[0] = reTrigger
+// ._[1] = reEnd
+// ._[2] = grammarFileName
+// ._[3] = fmtFileName
+// .trace
+// .view
+// .stop
+// .input
+// .fmt
+// .support
+// .grammarname
+// .inclusive
+// .split
+// .errorview
+// .grammarname
+
+// var tracing
+// var traceDepth
+
 //'use strict'
 
 
@@ -18,7 +37,7 @@ var ohm = require ('ohm-js');
 var support;
 var fmt;
 
-const glueGrammar =
+const fmtGrammar =
       String.raw`
 SemanticsSCL {
   semantics = ws* semanticsStatement+
@@ -66,31 +85,31 @@ SemanticsSCL {
 var varNameStack = [];
 
 
-var glueSemantics = {	
+var fmtSemantics = {	
     semantics: function (_1s, _2s) { 
-	var __1s = _1s._glue ().join (''); 
-	var __2s = _2s._glue ().join (''); 
+	var __1s = _1s._fmt ().join (''); 
+	var __2s = _2s._fmt ().join (''); 
 	return `
 {
 ${__2s}
 _terminal: function () { return this.sourceString; },
-_iter: function (...children) { return children.map(c => c._glue ()); }
+_iter: function (...children) { return children.map(c => c._fmt ()); }
 }`; 
     },
     semanticsStatement: function (_1, _2s, _3, _4s, _5, _6, _7s, _8, _9s, _10s, _11, _12s) {
 	varNameStack = [];
-	var __1 = _1._glue ();
-	var __2s = _2s._glue ().join ('');
-	var __3 = _3._glue ();
-	var __4s = _4s._glue ().join ('');
-	var __5 = _5._glue ();
-	var __6 = _6._glue ();
-	var __7s = _7s._glue ().join ('');
-	var __8 = _8._glue ();
-	var __9s = _9s._glue ().join ('');
-	var __10s = _10s._glue ().join ('');
-	var __11 = _11._glue ();
-	var __12s = _12s._glue ().join ('');
+	var __1 = _1._fmt ();
+	var __2s = _2s._fmt ().join ('');
+	var __3 = _3._fmt ();
+	var __4s = _4s._fmt ().join ('');
+	var __5 = _5._fmt ();
+	var __6 = _6._fmt ();
+	var __7s = _7s._fmt ().join ('');
+	var __8 = _8._fmt ();
+	var __9s = _9s._fmt ().join ('');
+	var __10s = _10s._fmt ().join ('');
+	var __11 = _11._fmt ();
+	var __12s = _12s._fmt ().join ('');
 	return `
 ${__1} : function (${__5}) { 
 _ruleEnter ("${__1}");
@@ -102,40 +121,40 @@ return _result;
 },
             `;
     },
-    ruleName: function (_1, _2s) { var __1 = _1._glue (); var __2s = _2s._glue ().join (''); return __1 + __2s; },
-    parameters: function (_1s) {  var __1s = _1s._glue ().join (','); return __1s; },
+    ruleName: function (_1, _2s) { var __1 = _1._fmt (); var __2s = _2s._fmt ().join (''); return __1 + __2s; },
+    parameters: function (_1s) {  var __1s = _1s._fmt ().join (','); return __1s; },
     
     parameter: function (_1) { 
-	var __1 = _1._glue ();
+	var __1 = _1._fmt ();
 	return `${__1}`;
     },
     flatparameter: function (_1) { 
-	var __1 = _1._glue (); 
-	varNameStack.push (`var ${__1} = _${__1}._glue ();`);
+	var __1 = _1._fmt (); 
+	varNameStack.push (`var ${__1} = _${__1}._fmt ();`);
 	return `_${__1}`;
     },
-    fpws: function (_1, _2s) { var __1 = _1._glue (); var __2s = _2s._glue ().join (''); return __1; },
-    fpd: function (_1, _2) { var __1 = _1._glue (); var __2 = _2._glue (); return __1; },
+    fpws: function (_1, _2s) { var __1 = _1._fmt (); var __2s = _2s._fmt ().join (''); return __1; },
+    fpd: function (_1, _2) { var __1 = _1._fmt (); var __2 = _2._fmt (); return __1; },
     
     treeparameter: function (_1, _2) { 
-	var __1 = _1._glue (); 
-	var __2 = _2._glue (); 
-	varNameStack.push (`var ${__2} = _${__2}._glue ().join ('');`);
+	var __1 = _1._fmt (); 
+	var __2 = _2._fmt (); 
+	varNameStack.push (`var ${__2} = _${__2}._fmt ().join ('');`);
 	return `_${__2}`; 
     },
     tflatparameter: function (_1) { 
-	var __1 = _1._glue (); 
+	var __1 = _1._fmt (); 
 	return `${__1}`;
     },
-    tfpws: function (_1, _2s) { var __1 = _1._glue (); var __2s = _2s._glue ().join (''); return __1; },
-    tfpd: function (_1, _2) { var __1 = _1._glue (); var __2 = _2._glue (); return __1; },
+    tfpws: function (_1, _2s) { var __1 = _1._fmt (); var __2s = _2s._fmt ().join (''); return __1; },
+    tfpd: function (_1, _2) { var __1 = _1._fmt (); var __2 = _2._fmt (); return __1; },
 
-    pname: function (_1, _2s) { var __1 = _1._glue (); var __2s = _2s._glue ().join (''); return __1 + __2s;},
-    rewrites: function (_1) { var __1 = _1._glue (); return __1; },
+    pname: function (_1, _2s) { var __1 = _1._fmt (); var __2s = _2s._fmt ().join (''); return __1 + __2s;},
+    rewrites: function (_1) { var __1 = _1._fmt (); return __1; },
     rw1: function (_1, _2s, codeQ, _3, _4, _5s) {
-	var __2 = _2s._glue ().join ('');
-	var code = codeQ._glue ();
-	var __3 = _3._glue ();
+	var __2 = _2s._fmt ().join ('');
+	var code = codeQ._fmt ();
+	var __3 = _3._fmt ();
 	if (0 === code.length) {
   	    return `${__2}${__3}`;
 	} else {
@@ -144,23 +163,23 @@ return _result;
   	    return `${code}${__3}`;
 	}
     },
-    rw2: function (_1) { var __1 = _1._glue (); return __1; },
-    letter1: function (_1) { var __1 = _1._glue (); return __1; },
-    letterRest: function (_1) { var __1 = _1._glue (); return __1; },
+    rw2: function (_1) { var __1 = _1._fmt (); return __1; },
+    letter1: function (_1) { var __1 = _1._fmt (); return __1; },
+    letterRest: function (_1) { var __1 = _1._fmt (); return __1; },
 
-    ws: function (_1) { var __1 = _1._glue (); return __1; },
+    ws: function (_1) { var __1 = _1._fmt (); return __1; },
     delimiter: function (_1) { return ""; },
 
-    rwstring: function (_1s) { var __1s = _1s._glue ().join (''); return __1s; },
-    stringchar: function (_1) { var __1 = _1._glue (); return __1; },
-    rwstringWithNewlines: function (_1s) { var __1s = _1s._glue ().join (''); return __1s; },
-    nlstringchar: function (_1) { var __1 = _1._glue (); return __1; },
+    rwstring: function (_1s) { var __1s = _1s._fmt ().join (''); return __1s; },
+    stringchar: function (_1) { var __1 = _1._fmt (); return __1; },
+    rwstringWithNewlines: function (_1s) { var __1s = _1s._fmt ().join (''); return __1s; },
+    nlstringchar: function (_1) { var __1 = _1._fmt (); return __1; },
 
-    code: function (_1, _2s, _3, _4, _5s) { return _3._glue (); },
-    codeString: function (_1) { return _1._glue (); },
+    code: function (_1, _2s, _3, _4, _5s) { return _3._fmt (); },
+    codeString: function (_1) { return _1._fmt (); },
 
     // Ohm v16 requires ...children, previous versions require no ...
-    _iter: function (...children) { return children.map(c => c._glue ()); },
+    _iter: function (...children) { return children.map(c => c._fmt ()); },
     _terminal: function () { return this.sourceString; }
 };
 
@@ -182,7 +201,9 @@ function ohm_parse (maybeMultipleGrammars, grammar, text, errorMessage) {
 	// console.error ("/" + text + "/");
 	// or ... 
 	if (argv.errorview) {
-	    console.error (text);
+	    console.error (parser.trace (text).toString ());
+	    console.error (text.length);
+	    console.error ("/" + text + "/");
 	}
 	var pos = cst._rightmostFailurePosition;
 	throw ("FAIL: at position " + pos.toString () + " " + errorMessage);
@@ -205,7 +226,7 @@ function transpiler (maybeMultipleGrammars, scnText, grammar, semOperation, sema
 	throw err;
     }
 }
-function gluetranspiler (scnText, grammar, semOperation, semanticsObject, errorMessage) {
+function fmttranspiler (scnText, grammar, semOperation, semanticsObject, errorMessage) {
     return transpiler(false, scnText, grammar, semOperation, semanticsObject, errorMessage);
 }
 
@@ -249,10 +270,10 @@ function _ruleExit (ruleName) {
 }
 
 
-function execTranspiler (source, grammar, semantics, errorMessage, srcFilename, glueFilename) {
-    // first pass - transpile glue code to javascript
+function execTranspiler (source, grammar, semantics, errorMessage, srcFilename, fmtFilename) {
+    // first pass - transpile fmt code to javascript
     try {
-	let generatedSCNSemantics = gluetranspiler (semantics, glueGrammar, "_glue", glueSemantics, "in FORMAT specification: " + glueFilename);
+	let generatedSCNSemantics = fmttranspiler (semantics, fmtGrammar, "_fmt", fmtSemantics, "in FORMAT specification: " + fmtFilename);
     _ruleInit();
 	try {
 	    if (viewGeneratedCode) {
@@ -262,7 +283,7 @@ function execTranspiler (source, grammar, semantics, errorMessage, srcFilename, 
 	    }
             let semObject = eval('(' + generatedSCNSemantics + ')');
 	    try {
-		let tr = inputtranspiler(source, grammar, "_glue", semObject, srcFilename);
+		let tr = inputtranspiler(source, grammar, "_fmt", semObject, srcFilename);
 		return tr;
 	    } catch (err) {
 		throw err;
@@ -280,10 +301,10 @@ function execTranspiler (source, grammar, semantics, errorMessage, srcFilename, 
     }
 }
 
-function internal_stranspile (sourceString, grammarFileName, glueFileName, errorMessage, srcFilename) {
+function internal_stranspile (sourceString, grammarFileName, fmtFileName, errorMessage, srcFilename) {
     var grammar = fs.readFileSync (grammarFileName, 'utf-8');
-    var glue = fs.readFileSync (glueFileName, 'utf-8');
-    var returnString = execTranspiler (sourceString, grammar, glue, errorMessage, srcFilename, glueFileName);
+    var fmt = fs.readFileSync (fmtFileName, 'utf-8');
+    var returnString = execTranspiler (sourceString, grammar, fmt, errorMessage, srcFilename, fmtFileName);
     return returnString;
 }
 
@@ -300,9 +321,9 @@ function dump (announce, s) {
     }
 }
 
-function expand (s, grammarFileName, glueFileName, message, srcFilename) {
+function expand (s, grammarFileName, fmtFileName, message, srcFilename) {
     dump ("********* block *********", s);
-    var result = internal_stranspile (s, grammarFileName, glueFileName, message, srcFilename);
+    var result = internal_stranspile (s, grammarFileName, fmtFileName, message, srcFilename);
     dump ("********* Expanded ******", result);
     return result;
 }
@@ -362,7 +383,7 @@ function pdebug (s) {
     }
 }
 
-function expandAll (s, triggerRE, endRE, grammarFileName, glueFileName, message, srcFilename) {
+function expandAll (s, triggerRE, endRE, grammarFileName, fmtFileName, message, srcFilename) {
     dump ("*** expandAll ***", s);
     if (s === undefined) {
 	return s;
@@ -374,7 +395,7 @@ function expandAll (s, triggerRE, endRE, grammarFileName, glueFileName, message,
 	    return front;
 	} else {
 	    dump ("*** expansion ***", middle);
-	    var expandedText = expand (middle, grammarFileName, glueFileName, message, srcFilename);
+	    var expandedText = expand (middle, grammarFileName, fmtFileName, message, srcFilename);
 	    cycles += 1;
 	    if (stop & (cycles >= stop)) {
 		return front + expandedText + rest;
@@ -385,7 +406,7 @@ function expandAll (s, triggerRE, endRE, grammarFileName, glueFileName, message,
 		    console.error (expandedText.substring (0,30));
 		    throw 'expand made no changes';
 		}
-		return front + expandAll (expandedText + rest, triggerRE, endRE, grammarFileName, glueFileName, message, srcFilename);
+		return front + expandAll (expandedText + rest, triggerRE, endRE, grammarFileName, fmtFileName, message, srcFilename);
 	    }
 	}
     }
@@ -395,7 +416,7 @@ function pre (allchars, srcFilename) {
     var reTrigger = new RegExp (argv._[0]);
     var reEnd = new RegExp (argv._[1]);
     var grammarFileName = argv._[2];
-    var glueFileName = argv._[3];
+    var fmtFileName = argv._[3];
 
     if (argv.support) {
 	support = require (argv.support);
@@ -418,7 +439,7 @@ function pre (allchars, srcFilename) {
     }
 
 
-    var expanded = expandAll (allchars, reTrigger, reEnd, grammarFileName, glueFileName, srcFilename, srcFilename);
+    var expanded = expandAll (allchars, reTrigger, reEnd, grammarFileName, fmtFileName, srcFilename, srcFilename);
     return expanded;
 }
 

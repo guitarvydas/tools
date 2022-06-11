@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+const fs = require ('fs');
+var rawText = fs.readFileSync ('/dev/fd/0');
+var parameters = JSON.parse(rawText);
+parameters.forEach (p => {
+var Passed = p [0];
+var Edge = p [1];
+var SourceContainer = p [2];
+var TargetContainer = p [3];
+if (Passed !== "true") {
+  console.error ('design rule failure');
+console.error(``);
+console.error(`Edge Containment edge=${Edge} is not contained by any Component (internal error: inferencing rules did not catch this case)`);
+console.error(`Source Container ${SourceContainer}`);
+console.error(`Target Container ${TargetContainer}`);
+console.error(``);
+console.error(``);
+console.error(``);
+console.error(``);
+console.error(`	`);
+
+}
+});
+
